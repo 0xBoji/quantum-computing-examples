@@ -13,9 +13,19 @@ from bell_state_lab import (
 from circuit_playground import interactive_playground, demo_playground
 from teleportation_demo import run_teleportation, print_results as print_teleportation_results
 from deutsch_jozsa import run_deutsch_jozsa, print_dj_results
+from bernstein_vazirani import run_bernstein_vazirani, print_bv_results
 
 
-MODES = ["hello", "coin", "grover", "bell", "playground", "teleport", "deutsch_jozsa"]
+MODES = [
+    "hello",
+    "coin",
+    "grover",
+    "bell",
+    "playground",
+    "teleport",
+    "deutsch_jozsa",
+    "bernstein_vazirani",
+]
 
 
 def main() -> None:
@@ -68,6 +78,12 @@ def main() -> None:
         default="plus",
         help="State to teleport in teleportation demo",
     )
+    parser.add_argument(
+        "--bv-secret",
+        type=str,
+        default="1011",
+        help="Secret bitstring for Bernstein–Vazirani demo",
+    )
 
     args = parser.parse_args()
 
@@ -119,6 +135,12 @@ def main() -> None:
             raise SystemExit("--dj-n must be >= 1 for Deutsch–Jozsa mode")
         counts = run_deutsch_jozsa(n=args.dj_n, oracle_type=args.dj_oracle, shots=args.shots)
         print_dj_results(counts, args.dj_n, args.dj_oracle, args.shots)
+
+    elif args.mode == "bernstein_vazirani":
+        if not args.bv_secret or any(bit not in {"0", "1"} for bit in args.bv_secret):
+            raise SystemExit("--bv-secret must be a non-empty bitstring of 0s and 1s")
+        counts = run_bernstein_vazirani(secret=args.bv_secret, shots=args.shots)
+        print_bv_results(counts, args.bv_secret, args.shots)
 
 
 if __name__ == "__main__":

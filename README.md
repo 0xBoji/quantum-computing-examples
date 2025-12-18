@@ -21,6 +21,7 @@ Supported `--mode` values:
 - `playground`
 - `teleport`
 - `deutsch_jozsa`
+- `bernstein_vazirani`
 
 Run with `-h`/`--help` for details on additional flags (qubits, targets, states, etc.).
 
@@ -178,6 +179,22 @@ python3 quantum_lab.py --mode deutsch_jozsa --dj-n 2 --dj-oracle balanced_parity
 ```
 
 The output includes raw counts over the input register and a classification of the oracle as `constant` or `balanced`.
+
+---
+
+### 8. `bernstein_vazirani.py`
+
+**Concept:** Bernstein–Vazirani algorithm to recover a hidden bitstring with a single query.
+
+```bash
+# Run via the dedicated script
+python3 bernstein_vazirani.py --secret 1011 --shots 1024
+
+# Or via the unified CLI
+python3 quantum_lab.py --mode bernstein_vazirani --bv-secret 1011 --shots 1024
+```
+
+The output shows raw counts over the input register and confirms whether the recovered bitstring matches the configured secret.
 
 ---
 
