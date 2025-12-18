@@ -22,6 +22,7 @@ Supported `--mode` values:
 - `teleport`
 - `deutsch_jozsa`
 - `bernstein_vazirani`
+- `vqe`
 
 Run with `-h`/`--help` for details on additional flags (qubits, targets, states, etc.).
 
@@ -195,6 +196,22 @@ python3 quantum_lab.py --mode bernstein_vazirani --bv-secret 1011 --shots 1024
 ```
 
 The output shows raw counts over the input register and confirms whether the recovered bitstring matches the configured secret.
+
+---
+
+### 10. `vqe_demo.py`
+
+**Concept:** Variational Quantum Eigensolver (VQE) to estimate the ground state energy of the H2 molecule.
+
+```bash
+# Run via the dedicated script
+python3 vqe_demo.py --shots 1024
+
+# Or via the unified CLI
+python3 quantum_lab.py --mode vqe --shots 1024
+```
+
+The output shows the estimated ground state energy (in Hartree) and compares it to the known exact value.
 
 ---
 

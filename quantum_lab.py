@@ -14,6 +14,7 @@ from circuit_playground import interactive_playground, demo_playground
 from teleportation_demo import run_teleportation, print_results as print_teleportation_results
 from deutsch_jozsa import run_deutsch_jozsa, print_dj_results
 from bernstein_vazirani import run_bernstein_vazirani, print_bv_results
+from vqe_demo import run_vqe_demo, print_vqe_result
 
 
 MODES = [
@@ -25,6 +26,7 @@ MODES = [
     "teleport",
     "deutsch_jozsa",
     "bernstein_vazirani",
+    "vqe",
 ]
 
 
@@ -141,6 +143,10 @@ def main() -> None:
             raise SystemExit("--bv-secret must be a non-empty bitstring of 0s and 1s")
         counts = run_bernstein_vazirani(secret=args.bv_secret, shots=args.shots)
         print_bv_results(counts, args.bv_secret, args.shots)
+
+    elif args.mode == "vqe":
+        energy, evals = run_vqe_demo(shots=args.shots)
+        print_vqe_result(energy, evals)
 
 
 if __name__ == "__main__":
