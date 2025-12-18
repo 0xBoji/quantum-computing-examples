@@ -8,7 +8,9 @@ from qiskit import QuantumCircuit, transpile
 from qiskit_algorithms.minimum_eigensolvers import VQE
 from qiskit_algorithms.optimizers import COBYLA
 from qiskit_aer.primitives import EstimatorV2 as Estimator
-from qiskit.circuit.library import RealAmplitudes
+from qiskit.circuit.library import TwoLocal
+from qiskit_nature.second_q.drivers import PySCFDriver
+from qiskit_nature.second_q.mappers import JordanWignerMapper
 from qiskit.quantum_info import SparsePauliOp
 from qiskit_aer.primitives import SamplerV2 as Sampler
 
@@ -18,21 +20,23 @@ def get_h2_hamiltonian() -> SparsePauliOp:
 
     This is a toy version for demonstration purposes.
     """
-    # Simplified H2 Hamiltonian (in Hartree units)
-    pauli_strings = [
-        ("II", -1.052373245772859),
-        ("IZ", 0.39793742484318045),
-        ("ZI", -0.39793742484318045),
-        ("ZZ", -0.01128010425624393),
-        ("XX", 0.18093119978423156),
-    ]
-    hamiltonian = SparsePauliOp.from_list(pauli_strings)
-    return hamiltonian
+    # Use PySCF to generate the Hamiltonian
+    driver = PySCFDriver(atom='H 0 0 0; H 0 0 0.735', basis='sto3g')
+    problem = driver.run()
+    
+    # Map to qubit operator
+    mapper = JordanWignerMapper()
+    qubit_op = mapper.map(problem.hamiltonian.second_q_op())
+    
+    print("Hamiltonian:")
+    print(qubit_op)
+    
+    return qubit_op
 
 
 def create_ansatz(num_qubits: int, reps: int = 1) -> QuantumCircuit:
     """Create a simple variational form (ansatz) for the VQE algorithm."""
-    ansatz = RealAmplitudes(num_qubits=num_qubits, reps=reps)
+    ansatz = TwoLocal(num_qubits=num_qubits, rotation_blocks=['ry', 'rz'], entanglement_blocks='cz', reps=1, entanglement='linear')
     # Bind the ansatz to concrete qubits
     ansatz = ansatz.decompose()
     return ansatz
@@ -47,13 +51,13 @@ def run_vqe_demo(shots: int = 1024) -> Tuple[float, int]:
     hamiltonian = get_h2_hamiltonian()
     num_qubits = hamiltonian.num_qubits
 
-    ansatz = create_ansatz(num_qubits, reps=1)
+    ansatz = create_ansatz(num_qubits, reps=3)
 
     # Initial parameters (random)
-    initial_point = np.random.default_rng(42).uniform(-np.pi, np.pi, ansatz.num_parameters)
+    # initial_point = np.random.default_rng(42).uniform(-np.pi, np.pi, ansatz.num_parameters)
 
     # Optimizer
-    optimizer = COBYLA(maxiter=100)
+    optimizer = COBYLA(maxiter=2000)
 
     # Backend
     estimator = Estimator()
@@ -63,7 +67,6 @@ def run_vqe_demo(shots: int = 1024) -> Tuple[float, int]:
     vqe = VQE(
         ansatz=ansatz,
         optimizer=optimizer,
-        initial_point=initial_point,
         estimator=estimator,
     )
 
