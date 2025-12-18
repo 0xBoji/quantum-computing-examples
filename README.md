@@ -198,6 +198,44 @@ The output shows raw counts over the input register and confirms whether the rec
 
 ---
 
+### 9. `statevector_demo.py`
+
+**Concept:** Inspect quantum statevectors (amplitudes and probabilities) before measurement.
+
+```bash
+# Run all demos
+python3 statevector_demo.py --demo all
+
+# Run specific demo
+python3 statevector_demo.py --demo bell
+python3 statevector_demo.py --demo grover
+```
+
+The output displays complex amplitudes and probabilities for each basis state, useful for debugging quantum algorithms.
+
+---
+
+## Testing
+
+The project includes probabilistic unit tests in `tests/test_quantum_demos.py`.
+
+Run tests with pytest:
+
+```bash
+# Install pytest (if not already installed)
+python3 -m pip install pytest
+
+# Run all tests
+python3 -m pytest tests/ -v
+```
+
+Tests validate:
+- Correct count sums
+- Expected probability distributions (with statistical thresholds)
+- Algorithm-specific behavior (e.g., Grover target dominance, DJ classification)
+
+---
+
 ## Contributing
 
 This project is intentionally small and focused on being a practical learning lab.
