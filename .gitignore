@@ -1,0 +1,18 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyw
+
+# Virtual environments
+qenv/
+.env/
+.venv/
+venv/
+
+# macOS
+.DS_Store
+
+# Editor/project settings
+.vscode/
+.idea/
+*.swp

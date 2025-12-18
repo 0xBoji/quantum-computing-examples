@@ -1,0 +1,149 @@
+# Quantum Coding Playground
+
+A small collection of hands-on quantum computing examples using Python and Qiskit. The goal is to build intuition for core quantum concepts by actually running circuits, not just reading theory.
+
+## Prerequisites
+
+- Python 3.13 (or compatible 3.x already installed on your machine)
+- Qiskit and Qiskit Aer (already installed in the local `qenv` virtual environment)
+
+### Setup (first time)
+
+```bash
+cd /Volumes/0xbojissd/quantumn-science
+python3 -m venv qenv
+source qenv/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip install qiskit 'qiskit[visualization]' qiskit-aer
+```
+
+### Activate environment (every time)
+
+```bash
+cd /Volumes/0xbojissd/quantumn-science
+source qenv/bin/activate
+```
+
+---
+
+## Scripts Overview
+
+### 1. `hello_quantum.py`
+
+**Concept:** Single-qubit superposition with the Hadamard gate.
+
+```bash
+python3 hello_quantum.py
+```
+
+You should see measurement results close to 50% `0` and 50% `1`.
+
+---
+
+### 2. `quantum_coin.py`
+
+**Concept:** Quantum coin / dice using multiple qubits in superposition.
+
+```bash
+# 1-qubit coin (2 outcomes)
+python3 quantum_coin.py --qubits 1 --shots 1000
+
+# 2-qubit "dice" (4 outcomes: 00, 01, 10, 11)
+python3 quantum_coin.py --qubits 2 --shots 1000
+```
+
+This shows how measurement distributions change with qubit count and number of shots.
+
+---
+
+### 3. `baby_grover.py`
+
+**Concept:** Tiny Grover search on 2 qubits (4 states). One marked state gets its amplitude boosted.
+
+```bash
+# Search for target state 11
+python3 baby_grover.py --target 11 --shots 1000
+
+# Try other targets: 00, 01, or 10
+python3 baby_grover.py --target 01 --shots 1000
+```
+
+The marked target should dominate the measurement statistics.
+
+---
+
+### 4. `bell_state_lab.py`
+
+**Concept:** Entanglement vs non-entangled product states.
+
+```bash
+# Run both circuits for comparison
+python3 bell_state_lab.py --mode both --shots 1000
+
+# Only Bell state
+python3 bell_state_lab.py --mode bell --shots 1000
+
+# Only product H⊗H state
+python3 bell_state_lab.py --mode product --shots 1000
+```
+
+- Bell state: results concentrate on `00` and `11`.
+- Product H⊗H: all four states appear with roughly equal probability.
+
+---
+
+### 5. `circuit_playground.py`
+
+**Concept:** Interactive REPL to build and run quantum circuits from the command line.
+
+```bash
+# Interactive mode
+python3 circuit_playground.py --mode interactive --qubits 2 --shots 1024
+```
+
+Available commands inside the REPL:
+
+- `h i` &mdash; apply Hadamard on qubit `i`
+- `x i` &mdash; apply Pauli-X on qubit `i`
+- `z i` &mdash; apply Pauli-Z on qubit `i`
+- `cx c t` &mdash; apply CNOT (control `c`, target `t`)
+- `draw` &mdash; print the circuit diagram
+- `run` &mdash; run on the simulator and show counts
+- `reset` &mdash; reset the circuit (same qubit count)
+- `help` &mdash; show the help menu
+- `quit` &mdash; exit the playground
+
+You can also run a simple demo:
+
+```bash
+python3 circuit_playground.py --mode demo --qubits 2 --shots 512
+```
+
+---
+
+### 6. `teleportation_demo.py`
+
+**Concept:** Quantum teleportation of a single-qubit state using a 3-qubit circuit and Bell pair.
+
+Supported input states:
+
+- `zero`  &rarr; \|0⟩
+- `one`   &rarr; \|1⟩
+- `plus`  &rarr; (\|0⟩ + \|1⟩)/√2
+- `minus` &rarr; (\|0⟩ − \|1⟩)/√2
+
+Example usage:
+
+```bash
+python3 teleportation_demo.py --state plus --shots 1024
+python3 teleportation_demo.py --state one --shots 1024
+```
+
+The script prints full 3-bit measurement results and the marginal distribution of the teleported qubit (after classical correction in post-processing).
+
+---
+
+## Notes
+
+- The `.gitignore` is configured to exclude Python bytecode, virtual environments (including `qenv/`), and common editor/system files.
+- All scripts use the local Aer simulator via `qiskit_aer`. No access to real hardware is required.
