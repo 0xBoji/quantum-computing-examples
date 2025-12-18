@@ -2,10 +2,32 @@
 
 A small collection of hands-on quantum computing examples using Python and Qiskit. The goal is to build intuition for core quantum concepts by actually running circuits, not just reading theory.
 
+## Quick start: unified CLI
+
+All demos can be run through a single entry point:
+
+```bash
+cd /Volumes/0xbojissd/quantumn-science
+source qenv/bin/activate
+python3 quantum_lab.py --mode hello --shots 512
+```
+
+Supported `--mode` values:
+
+- `hello`
+- `coin`
+- `grover`
+- `bell`
+- `playground`
+- `teleport`
+- `deutsch_jozsa`
+
+Run with `-h`/`--help` for details on additional flags (qubits, targets, states, etc.).
+
 ## Prerequisites
 
-- Python 3.13 (or compatible 3.x already installed on your machine)
-- Qiskit and Qiskit Aer (already installed in the local `qenv` virtual environment)
+- Python 3.13 (or a compatible 3.x installation)
+- Qiskit and Qiskit Aer (installed inside the local `qenv` virtual environment)
 
 ### Setup (first time)
 
@@ -36,7 +58,7 @@ source qenv/bin/activate
 python3 hello_quantum.py
 ```
 
-You should see measurement results close to 50% `0` and 50% `1`.
+Measurement results are typically close to 50% `0` and 50% `1`.
 
 ---
 
@@ -142,6 +164,37 @@ python3 teleportation_demo.py --state one --shots 1024
 The script prints full 3-bit measurement results and the marginal distribution of the teleported qubit (after classical correction in post-processing).
 
 ---
+
+### 7. `deutsch_jozsa.py`
+
+**Concept:** Deutsch–Jozsa algorithm on a small number of input qubits.
+
+```bash
+# Run via the dedicated script
+python3 deutsch_jozsa.py --n 2 --oracle balanced_parity --shots 1024
+
+# Or via the unified CLI
+python3 quantum_lab.py --mode deutsch_jozsa --dj-n 2 --dj-oracle balanced_parity --shots 1024
+```
+
+The output includes raw counts over the input register and a classification of the oracle as `constant` or `balanced`.
+
+---
+
+## Contributing
+
+This project is intentionally small and focused on being a practical learning lab.
+If you would like to contribute:
+
+- Open an issue with a short description of the concept or algorithm you want to add.
+- Keep new examples minimal and runnable from the command line.
+- Prefer clear, well-commented circuits over heavy abstraction.
+
+Examples of great contributions:
+
+- New small algorithms (e.g. Deutsch–Jozsa, Bernstein–Vazirani, simple QPE).
+- Additional educational demos (more entanglement patterns, simple VQE examples).
+- Improvements to the interactive playground or unified CLI.
 
 ## Notes
 
