@@ -7,7 +7,7 @@ A small collection of hands-on quantum computing examples using Python and Qiski
 All demos can be run through a single entry point:
 
 ```bash
-cd /Volumes/0xbojissd/quantumn-science
+cd quantum-computing-examples
 source qenv/bin/activate
 python3 quantum_lab.py --mode hello --shots 512
 ```
@@ -34,7 +34,7 @@ Run with `-h`/`--help` for details on additional flags (qubits, targets, states,
 ### Setup (first time)
 
 ```bash
-cd /Volumes/0xbojissd/quantumn-science
+cd quantum-computing-examples
 python3 -m venv qenv
 source qenv/bin/activate
 python3 -m pip install --upgrade pip
@@ -44,7 +44,7 @@ python3 -m pip install qiskit 'qiskit[visualization]' qiskit-aer
 ### Activate environment (every time)
 
 ```bash
-cd /Volumes/0xbojissd/quantumn-science
+cd quantum-computing-examples
 source qenv/bin/activate
 ```
 
@@ -261,12 +261,35 @@ If you would like to contribute:
 - Open an issue with a short description of the concept or algorithm you want to add.
 - Keep new examples minimal and runnable from the command line.
 - Prefer clear, well-commented circuits over heavy abstraction.
+- Follow conventional commit format for all commit messages.
 
 Examples of great contributions:
 
 - New small algorithms (e.g. Deutsch–Jozsa, Bernstein–Vazirani, simple QPE).
 - Additional educational demos (more entanglement patterns, simple VQE examples).
 - Improvements to the interactive playground or unified CLI.
+
+### Conventional Commits
+
+This project follows [Conventional Commits](https://www.conventionalcommits.org/) specification. 
+
+Commit message format:
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+Common types:
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `test`: Adding missing tests or correcting existing tests
+- `chore`: Other changes that don't modify src or test files
 
 ## Notes
 
